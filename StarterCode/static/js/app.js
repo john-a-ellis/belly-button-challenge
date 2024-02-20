@@ -93,19 +93,12 @@ function updateBarChart(subjectID){
 }
 
 //*****************************************
-// updateBarChart updates the bubble chart with new sample values and is chained to the onChange event for the select control.
+// updateBubbleChart updates the bubble chart with new sample values and is chained to the onChange event for the select control.
 function updateBubbleChart(subjectID){
     let thisPlotData = getSamplePlotData(subjectID, "bubble")
     Plotly.restyle("bubble", "x", [thisPlotData[0]]);
     Plotly.restyle("bubble", "y", [thisPlotData[1]]);
     Plotly.restyle("bubble", "text", [thisPlotData[2]]);
-}
-
-//*****************************************
-// updateBarChart updates the bubble chart with new frequency values and is chained to the onChange event for the select control.
-function updateGaugeChart(subject){
-    Plotly.restyle("gauge", "value", [subject[0].wfreq]);
-    Plotly.restyle("gauge", "gauge.threshold.value", [subject[0].wfreq]);
 }
 
 //*****************************************
@@ -157,9 +150,15 @@ function initBarChart(SubjectID) {
       x: thisXSeries,
       text:thisZSeries,
       orientation: 'h',
-      type: 'bar'}];
+      type: 'bar',
+      
+    }];
+    
+    let layout = {
+        title: "Top 10 Occurring OTU's"
+        };
 
-    Plotly.newPlot("bar", data);
+    Plotly.newPlot("bar", data, layout);
   }
 
 //*****************************************
@@ -184,65 +183,11 @@ function initBubbleChart(subjectID){
     }]
 
     let layout = {
-        xaxis:{title:'OTU ID'}
+        xaxis:{title:'OTU ID'},
+        yaxis:{title:'Sample Values'},
+        title: "Samples Values by OTU ID"
     }
 
     Plotly.newPlot("bubble", data, layout);
         
 }
-
-//*****************************************
-// Initialize the Gauge Chart 
-function initGaugeChart(subject){
-    
-    var data = [
-        {
-          domain: { x: [0, 1], y: [0, 1] },
-          value: subject[0].wfreq,
-          title: { text: "Belly Button Washing Frequency<br>Scrubs per week" },
-          type: "indicator",
-          mode: "gauge",
-        
-          gauge: {
-            shape: "angular",
-            bar:{color: "green"},
-            axis: { range: [0, 9],
-                    dticks: .1,
-                    tickelabelstep:1,
-                    showticklables: true,
-                    tickvals:[0,1,2,3,4,5,6,7,8,9],
-                    ticks: 'outside',
-                    tickmode:'array',
-                    ticklen:10,
-            },
-     
-            steps: [
-              { range: [0, 1], color: "#ffffff", value: '0-1' },
-              { range: [1, 2], color: "#ecf2df", value: '1-2' }, 
-              { range: [2, 3], color: "#d9e6bf", value: '2-3' },
-              { range: [3, 4], color: "#c6d99f", value: '3-4' },
-              { range: [4, 5], color: "#b3cc80", value: '4-5' },
-              { range: [5, 6], color: "#9fbf60", value: '5-6' },
-              { range: [6, 7], color: "#8cb340", value: '6-7' },
-              { range: [7, 8], color: "#79a620", value: '7-8' },
-              { range: [8, 9], color: "#669900", value: '8-9' },
-
-            ],
-            threshold: {
-              line: { color: "green", width: 4 },
-              thickness: 0.75,
-              value: subject[0].wfreq
-            }
-          }
-        }
-      ];
-      
-      var layout = {
-        width: 600, 
-        height: 450, 
-        margin: { t: 0, b: 0 },
-     
-        };
-    Plotly.newPlot('gauge', data, layout);
-}
-
