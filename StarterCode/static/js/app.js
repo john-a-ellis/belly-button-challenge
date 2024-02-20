@@ -10,10 +10,6 @@ d3.json(myUrl).then(function(getData){
     myNames = getData.names;
     myMeta = getData.metadata;
     mySamples = getData.samples;
-    console.log(getData);
-    console.log(myNames);
-    console.log(myMeta);
-    console.log(mySamples);
 
 //getting the first subject in the select list
     let firstSubject = initSelect();
@@ -170,7 +166,6 @@ function initBubbleChart(subjectID){
     let thisXSeries = thisPlot[0];
     let thisYSeries = thisPlot[1];
     let thisTextSeries = thisPlot[2];
-    console.log(thisXSeries);
     let data = [{
         y: thisYSeries,
         x: thisXSeries,
